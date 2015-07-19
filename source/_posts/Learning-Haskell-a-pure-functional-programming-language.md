@@ -329,6 +329,7 @@ class Eq a where
     x == y  =  not (x /= y)
 ```
 
+![Class Hierarchy in Haskell](/img/haskell-class-hierarchy.png)
 
 Monad
 ---
