@@ -11,8 +11,6 @@ tags: [functional, haskell, scala]
 Install Haskell Environment in Mac Step By Step
 ---
 
-###Install
-
 
 ```
 % brew install ghc cabal-install
