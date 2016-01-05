@@ -413,4 +413,4 @@ it :: [Char]
 Reference
 ---
 
-1. 《七天七语言》，<http://book.douban.com/subject/10555435/>
+1. 《七周七语言》，<http://book.douban.com/subject/10555435/>
