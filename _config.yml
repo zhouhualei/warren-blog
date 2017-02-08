@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Warren's Blog 
-subtitle:
+title: WarrenTalk  
+subtitle: 卧舟杂谈
 description: Think then do it
 author: Warren Zhou 
 language: zh-Hans 
@@ -40,7 +40,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false 
   line_number: true
   auto_detect: true
   tab_replace:
@@ -53,7 +53,9 @@ social:
   Twitter: http://twitter.com/warren_zhou 
   Weibo: http://weibo.com/hualeizhou 
   DouBan: http://douban.com/people/joesay 
-  ZhiHu: http://www.zhihu.com/people/zhou-hua-lei 
+  ZhiHu: http://www.zhihu.com/people/warrenzhou 
+
+baidu_analytics: 6cdc0c9737c27720d49e320df8535ee2
 
 # Category & Tag
 default_category: uncategorized
@@ -83,6 +85,6 @@ since: 2014
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/zhouhualei/zhouhualei.github.io.git
+  repo: https://github.com/zhouhualei/warrentalk.github.io.git
   branch: 
   message: 
