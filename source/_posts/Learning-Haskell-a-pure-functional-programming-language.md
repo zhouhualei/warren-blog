@@ -29,7 +29,7 @@ Prelude> 4
 Basic Concepts
 ---
 
-###定义函数
+### 定义函数
 
 ```
 Prelude> let double x = x * 2
@@ -37,7 +37,7 @@ Prelude> double 2
 4 
 ```
 
-###定义模块
+### 定义模块
 
 ```
 ./double.hs
@@ -56,15 +56,15 @@ Ok, modules loaded: Main.
 递归
 ---
 
-###递归的不同实现 -> 阶乘问题
-####一行递归
+### 递归的不同实现 -> 阶乘问题
+#### 一行递归
 
 ```
 Prelude> let fact x = if x==0 then 1 else fact (x - 1) * x
 Prelude> fact 3
 6
 ```
-####模式匹配
+#### 模式匹配
 
 ```
 ./factorial.hs
@@ -73,7 +73,7 @@ module Main where
     factorial 0 = 1                     -- pattern 1
     factorial x = x * factorial (x - 1) -- pattern 2
 ```
-####哨兵表达式
+#### 哨兵表达式
 
 ```
 ./fact_with_guard.hs
@@ -85,8 +85,8 @@ module Main where
 ```
 
 
-###高效地处理递归，元祖和列表 -> Example: 斐波那契序列问题
-####不够高效的实现：模式匹配
+### 高效地处理递归，元祖和列表 -> Example: 斐波那契序列问题
+#### 不够高效的实现：模式匹配
 
 ```
 ./fib.hs
@@ -97,7 +97,7 @@ module Main where
     fib x = fib (x - 1) + fib (x - 2)
 ```
 
-####高效实现：利用元组，转换为尾递归
+#### 高效实现：利用元组，转换为尾递归
 
 ```
 ./fib_tuple.hs
@@ -113,7 +113,7 @@ module Main where
     fib x = fibResult (fibTuple (0, 1, x))
 ```
 
-####利用函数的组合
+#### 利用函数的组合
 
 ```
 ./fib_pair.hs
@@ -132,14 +132,14 @@ module Main where
 高阶函数
 ---
 
-###匿名函数（lambda）
+### 匿名函数（lambda）
 
 ```
 Prelude> (\x -> x ++ "World!") "Hello "
 "Hello World!"
 ```
 
-###map
+### map
 
 ```
 -- map + lamda
@@ -147,14 +147,14 @@ Prelude> map (\x -> x * x) [1, 2, 3]
 [1,4,9]
 ```
 
-###filter
+### filter
 
 ```
 *Main> filter odd [1, 2, 3, 4, 5]
 [1,3,5]
 ```
 
-###flodl, foldr
+### flodl, foldr
 
 ```
 Prelude> foldl (\x carryOver -> carryOver + x) 0 [1 .. 10]  — fold from left to right
@@ -163,7 +163,7 @@ Prelude> foldr (\x carryOver -> carryOver + x) 0 [1 .. 10]  — fold from right 
 55
 ```
 
-####foldl的一种简化表达: fold1
+#### foldl的一种简化表达: fold1
 
 ```
 Prelude> foldl1 (+) [1 .. 10]
@@ -173,7 +173,7 @@ Prelude> foldl1 (+) [1 .. 10]
 Advanced Concepts 
 ---
 
-###偏应用函数：将多参数的函数拆分为多个只有一个参数的函数
+### 偏应用函数：将多参数的函数拆分为多个只有一个参数的函数
 
 
 ```
@@ -195,7 +195,7 @@ double :: Num a => a -> a
 * prod 2 4 实际上计算(prod 2) 4
 * 几乎每个Haskell的多参数函数都是柯里化的
  
-###惰性求值: 仅仅完成一部分必要的计算
+### 惰性求值: 仅仅完成一部分必要的计算
 
 
 ```
@@ -204,8 +204,8 @@ Prelude> take 5 [1..]
 [1,2,3,4,5]
 ```
  
-###类型系统
-####原生类型
+### 类型系统
+#### 原生类型
 
 ```
 Prelude> :set +t
@@ -223,7 +223,7 @@ True
 it :: Bool
 ```
 
-####自定义类型（利用data关键字定义）
+#### 自定义类型（利用data关键字定义）
 
 
 ```
@@ -263,7 +263,7 @@ it :: Rank
 1
 ```
 
-####类型模板 -> 实现函数的多态以及数据类型的多态
+#### 类型模板 -> 实现函数的多态以及数据类型的多态
 
 ```
 ./type_template.hs
@@ -274,7 +274,7 @@ module Main where
 ```
 
 
-####自定义类型模板
+#### 自定义类型模板
 
 ```
 ./userdefine_type_template.hs
@@ -292,7 +292,7 @@ Trio 'a' 'b' 'c' :: Triplet Char
 
 注：Triplet: 类型构造器，Trio: 数据构造器
 
-####自定义递归类型
+#### 自定义递归类型
 
 ```
 ./tree_depth.hs
@@ -315,7 +315,7 @@ Children [Leaf 1,Children [Leaf 2,Leaf 3]]
 3
 ```
 
-####类
+#### 类
 
 * 为了便于实现函数的继承、重载、多态
 * 不同于面向对象中的Class：对象是类型，不涉及数据
@@ -345,8 +345,8 @@ Monad
 * Maybe monad可以用来进行错误处理
 
 
-###Example 1：醉汉问题
-####嵌套方式实现
+### Example 1：醉汉问题
+#### 嵌套方式实现
 
 ```
 ./drunken-pirate-without-monad.hs
@@ -363,7 +363,7 @@ it :: Num a => a
 ```
 
 
-####利用Monad实现
+#### 利用Monad实现
 
 ```
 ./drunken-pirate-monad.hs
@@ -389,7 +389,7 @@ Position 5
 it :: Num t => Position t
 ```
 
-###Example 2: 利用do实现I/O monad
+### Example 2: 利用do实现I/O monad
 
 ```
  ./io-monad.hs
@@ -414,3 +414,8 @@ Reference
 ---
 
 1. 《七周七语言》，<http://book.douban.com/subject/10555435/>
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>

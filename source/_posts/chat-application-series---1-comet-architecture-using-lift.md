@@ -113,7 +113,7 @@ $ sbt ~container:start
 详细代码可参考<https://github.com/zhouhualei/chat-app-liftweb-version>，这里只对核心代码做下简单分析。
 
 
-###_HTML页面_
+### _HTML页面_
 
 只有一个主页面，完整路径为src/main/webapp/index.html
 
@@ -138,7 +138,7 @@ $ sbt ~container:start
 
 ```
 
-###_聊天表单(ChatIn)_
+### _聊天表单(ChatIn)_
 
 表单提交时，将内容发送给ChatServer，完整路径为src/main/scala/code/snippet/ChatIn
 
@@ -168,7 +168,7 @@ object ChatIn {
 
 ```
 
-###_聊天服务器(ChatServer)_
+### _聊天服务器(ChatServer)_
 
 利用Actor并发模型，同时维护多个clients的服务，当聊天记录发生变化时，通知Chat让其通过Comet方式刷新浏览器页面。完整路径为src/main/scala/code/comet/ChatServer
 
@@ -194,7 +194,7 @@ object ChatServer extends LiftActor with ListenerManager {
 }
 ```
 
-###_聊天记录(Chat)_
+### _聊天记录(Chat)_
 
 负责页面的实时刷新，通过注册ChatServer，当ChatServer收到message时，会得到通知。完整路径为src/main/scala/code/comet/Chat
 
@@ -231,5 +231,10 @@ UI效果
 Resource
 --- 
 
-1. Simply Lift, <http://simply.liftweb.net>
-2. Lift Cookbook, <http://chimera.labs.oreilly.com/books/1234000000030/index.html>
+> 1. Simply Lift, <http://simply.liftweb.net>
+> 2. Lift Cookbook, <http://chimera.labs.oreilly.com/books/1234000000030/index.html>
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>

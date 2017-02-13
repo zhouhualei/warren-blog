@@ -3,10 +3,10 @@ date: 2015-08-30 11:09:11
 category: Metaprogramming Ruby
 tags: [Ruby,Metaprogramming,Book,Object Model, Method]
 ---
-##说在前面
+## 说在前面
 这篇文章与这个系列的开篇文章隔了很久了，一直也没有能够整理出来，今天终于搞定一篇，希望尽早完成这个系列吧。上篇比较宏观地介绍了Ruby的元编程，从这篇开始，我们将进入Ruby的世界，探索哪些元编程特性。我们会先来介绍Ruby的对象模型和方法，对象模型是整个Ruby语言的基础，也为元编程带来了巨大的灵活性。而Ruby中的方法在对象模型的基础上提供了强大的动态操纵的能力，能够方便地进行元编程。<!--more-->
 
-##Object Model
+## Object Model
 
 先来看一张Ruby对象模型的图
 
@@ -17,7 +17,7 @@ Note:
  - Object类是所有类的默认superclass
  - 关于类为什么可以调用class方法，Class的superclass为什么是Module? 这些问题，可以参考另一篇文章《Ruby中那些不太容易理解的特性》
 
-###Module in Object Model
+### Module in Object Model
 ```ruby
  # 查看祖先链
  2.0.0-p247 :001 > String.ancestors
@@ -27,7 +27,7 @@ Note:
 
 关于Kernel模块，值得一提的是，RubyGem就是在Kernel模块中定义了gem()方法，只要require这个包之后就能在任何地方使用这个方法了，还有proc和lambda方法也定义在Kernel模块中。
 
-###Open Class: 可以用来增强Ruby或者框架、类库提供的类4. 
+### Open Class: 可以用来增强Ruby或者框架、类库提供的类4. 
 ```ruby
 > cat object_model.rb
 # 扩展String类
@@ -42,7 +42,7 @@ end
  => "hello Metaprogrammming"
 ```
 
-###Namespace using Module: 可以用来防止命名冲突
+### Namespace using Module: 可以用来防止命名冲突
 
 ```ruby
 > cat namespace_example.rb
@@ -61,8 +61,8 @@ end
 => 100
 ```
 
-##Method in Ruby
-###方法的查找与执行
+## Method in Ruby
+### 方法的查找与执行
 概念
 
      . Receiver: 方法所在的对象
@@ -72,7 +72,7 @@ end
 
 - self关键字表示当前对象，当一个方法被调用时，self就对应了receiver。
 
-###方法的动态操纵
+### 方法的动态操纵
 利用方法的动态操纵能力可以避免重复代码，这些动态操纵的技术包括：
 
 1. Dynamic Dispatch
@@ -80,7 +80,7 @@ end
 3. Ghost method
 4. Dynamic Proxies
 
-####方法的动态调用(利用Dynamic Dispatch技术)
+#### 方法的动态调用(利用Dynamic Dispatch技术)
 Ruby方法调用的本质是向Receiver发送消息
 ```ruby
 > cat send_message.rb
@@ -103,7 +103,7 @@ method_names = public_instance_methods(true)
 tests = method_names.delete_if {|method_name| method_name !~ /^test./}
 ```
 
-####方法的动态定义(利用Dynamic Method技术)
+#### 方法的动态定义(利用Dynamic Method技术)
 
 ```ruby
 > cat dynamic_method.rb
@@ -117,7 +117,7 @@ end
 puts DynamicMethod.new.my_method(2)
 ```
 
-####创建幽灵方法(在method_missing内定义)
+#### 创建幽灵方法(在method_missing内定义)
 当无法找到调用的方法时，将会调用self的method_missing方法，可以利用这个特性创建一些Ghost method(幽灵方法)，这些方法并不真正存在，但对用户来说，跟真实存在的方法没有区别。
 ```ruby
 > cat ghost_method.rb
@@ -144,7 +144,7 @@ puts user.name
 puts user.job
 ```
 
-####方法的转发(利用Dynamic Proxies技术创建封装对象，来封装另一个对象、Web服务或者其它语言代码)
+#### 方法的转发(利用Dynamic Proxies技术创建封装对象，来封装另一个对象、Web服务或者其它语言代码)
 ```ruby
 > cat http_wrapper.rb
 # 在method_missing中进行方法的转发
@@ -161,11 +161,16 @@ class HttpWrapper
 end
 ```
 
-##Conclusion
+## Conclusion
 这里只是罗列了几个基本的元编程技术，将这些技术组合起来能够有效地消除重复代码。你是不是已经领略到了Ruby的神奇了？这还没结束下，期待下一篇吧。
 
-##Reference
+## Reference
 1. [《Ruby元编程》](http://book.douban.com/subject/7056800/)
 
 
 Have Fun!
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>

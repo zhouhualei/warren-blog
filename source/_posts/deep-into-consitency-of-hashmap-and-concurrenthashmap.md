@@ -5,7 +5,7 @@ tags: [java,juc,Book]
 ---
 
 
-##HashMap与ConcurrentHashMap
+## HashMap与ConcurrentHashMap
 众所周知，HashMap无法做到线程安全，在某些特定的场景下甚至会出现死循环的情况。而ConcurrentHashMap是HashMap的并发版本，它能够做到线程安全。<!--more-->
 
 
@@ -14,12 +14,12 @@ tags: [java,juc,Book]
                                                                                                                                 												                             ——《Java并发编程实战》
 
 
-##迭代器的一致性问题
+## 迭代器的一致性问题
 
 Java容器类的迭代操作最标准的方式就是使用Iterator，在并发修改的情况下，Iterator的一致性问题就暴露出来了。这种情况下，强一致性的表现就是”及时失败“，抛出大家并不陌生的ConcurrentModificationException。如果只支持弱一致性呢，它就会忽略这个不一致性，允许容器在迭代期间被并发修改。
 
 
-##强一致性是如何实现的
+## 强一致性是如何实现的
 
 HashMap的强一致性是通过引入计数器实现的。
 
@@ -145,7 +145,7 @@ HashMap的强一致性是通过引入计数器实现的。
 ```
 
 
-##ConcurrentHash的迭代操作为什么是弱一致性的
+## ConcurrentHash的迭代操作为什么是弱一致性的
 
 同样的，ConcurrentHashMap的keySet()方法最终也是通过HashIterator的迭代器实现，但代码已经发生了变化，它已经不再维护任何计数器，而且代码中也不会再抛出ConcurrentHashMap()，当容器被并发修改时，迭代操作将会继续执行，因此无法保证迭代操作一定能够得到容器中最新的内容。
 
@@ -188,13 +188,18 @@ HashMap的强一致性是通过引入计数器实现的。
 ```
 
 
-##总结
+## 总结
 
 最后，从线程安全性、迭代操作的一致性和性能三个方面分别做一个比较：
 
 ![三个维度比较](/img/deep-into-consitency-of-hashmap-and-concurrenthashmap-1.png)
 
 
-##Reference
+## Reference
 1. 《Java并发编程实战》
 2.  jdk 1.7.0_45 源代码
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>

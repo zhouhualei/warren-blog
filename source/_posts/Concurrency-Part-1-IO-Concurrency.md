@@ -1,5 +1,5 @@
 title: 聊聊并发，Part 1：IO模型
-date: 2016-01-05 08:28:24
+date: 2017-02-13 23:45:02
 category: Concurrency
 tags: [Architecture, IO, Concurrency, Nginx, Apache, Tomcat, Node.js, Netty]
 ---
@@ -9,8 +9,8 @@ tags: [Architecture, IO, Concurrency, Nginx, Apache, Tomcat, Node.js, Netty]
 
 *Note*
 
->    1. IO的内核实现有比较大的平台差异，本文均以Linux为对象
->    2. 本文主要讨论网络IO
+> 1. IO的内核实现有比较大的平台差异，本文均以Linux为对象
+> 2. 本文主要讨论网络IO
 
 # 二、Kernel-level IO
 同步、异步、阻塞、非阻塞的概念是我认为最难理清的，我觉得搞清楚两点很重要：IO到底做了什么，同步异步的判断标准是什么。
@@ -22,8 +22,8 @@ tags: [Architecture, IO, Concurrency, Nginx, Apache, Tomcat, Node.js, Netty]
 ## IO的两个阶段
 那么，问题来了，从请求开始到操作完成，IO具体做了什么呢？其实，IO可以分为两个阶段，以socket的recv系统调用为例：
 
-- 第一阶段、等待数据就绪
-- 第二阶段、将数据从内核缓冲区复制到应用缓存区
+> - 第一阶段、等待数据就绪
+> - 第二阶段、将数据从内核缓冲区复制到应用缓存区
 
 ## IO模型
 IO模型在不断的演化和改进中，要做一个梳理并不容易，查阅了很多资料中对于IO模型的归纳，相比觉得《UNIX网络编程 卷1：套接字联网API》这本书中所总结的五种IO模型是最为清晰和合适的。
@@ -34,16 +34,15 @@ IO模型在不断的演化和改进中，要做一个梳理并不容易，查阅
 ### 3) IO Multiplexing
 非阻塞式IO在遇到大量并发IO的时候（想想Web服务器的场景），CPU将忙于对所有文件描述符进行轮询检查，因为一次检查只能获知一个文件描述符的就绪状态，非常低效。随后，IO Multiplexing就实现了一次检查可以同时获取到多个文件描述符的就绪状态，通过这种方式可以大大提高就绪检查的效率。但需要指出的是，就绪检查本身是阻塞式的操作，在Linux平台，IO Multiplexing有多种实现，这里按照出现顺序来进行一一介绍。
 
-- select：通过select系统调用，需要检查的文件描述符数据被作为参数传入，他们会在内核被修改就绪状态，返回用户态后再通过遍历找到所有就绪的文件描述符。这看起来就不是特别高效，而且它对于文件描述符数组的长度限制在1024以下。
-- poll：类似于select，只是去除了文件描述符数组长度的限制。
-- epoll：select和poll的主要问题是文件描述符数组需要在内核态和用户态之间进行复制，并且需要进行遍历才能获得就绪的文件描述符。epoll则利用mmap技术避免了这些复制和遍历操作。epoll在Linux2.6出现，通过epoll_ctl进行注册，然后通过epoll_wait得到就绪通知，可以做到高效地就绪状态检查，它是目前性能最好的就绪通知方案。
+> - select：通过select系统调用，需要检查的文件描述符数据被作为参数传入，他们会在内核被修改就绪状态，返回用户态后再通过遍历找到所有就绪的文件描述符。这看起来就不是特别高效，而且它对于文件描述符数组的长度限制在1024以下。
+> - poll：类似于select，只是去除了文件描述符数组长度的限制。
+> - epoll：select和poll的主要问题是文件描述符数组需要在内核态和用户态之间进行复制，并且需要进行遍历才能获得就绪的文件描述符。epoll则利用mmap技术避免了这些复制和遍历操作。epoll在Linux2.6出现，通过epoll_ctl进行注册，然后通过epoll_wait得到就绪通知，可以做到高效地就绪状态检查，它是目前性能最好的就绪通知方案。
 
 ### 4) 信号驱动式IO
 Linux2.4上出现了SIGIO这种就绪通知机制，它跟epoll技术有类似之处，但它是通过内核的信号机制实现非阻塞的就绪通知。乍看起来已经做到了非阻塞，但其实有不少问题，比如信号在内核的事件队列中顺序处理可能会导致延迟和丢失。
 ### 5) 异步IO
 Linux2.6.16开始出现了Kernal AIO，IO操作发起时将被注册到事件队列，IO操作完成时通过信号或者轮询获取状态，但它在Linux中的实现依然是通过内核多线程来实现，但它无法利用内核缓存区，很难被用到网络IO中，总体上来说，Kernal AIO方案尚不成熟，目前也存在一些伪异步IO的方案，比如Glibc AIO、libuv和JDK7 AIO，它们都通过用户态的多线程模拟异步IO。
 
-<br/>
 下面这张图整理了这五个IO模型在IO的两个阶段中是否阻塞，从而也决定了每种IO模型是同步还是异步的。
 
 ![五种IO模型对比](/img/5896b520ab64413f92000f1b.png)
@@ -54,24 +53,21 @@ Linux2.6.16开始出现了Kernal AIO，IO操作发起时将被注册到事件队
 ## **BIO**
 简单粗暴的"One process/thread per socket” Model，它的缺陷想必也不需要解释了，Apache和Tomcat(低于6.0.0) 是这一种并发模型的典型实现。
 
-![BIO模型](/img/5896b520ab64413f92000f17.png)
+![BIO模型](/img/58a1b4016c923c68fc000000.png)
 
 ## **NIO**
 说到NIO，就不得不提Reactor Pattern（反应堆模式），它是一种事件驱动的设计，利用IO Multiplexing和非阻塞IO实现单线程或者少量线程对海量并发IO的处理。
 
 它包括以下组件：
 
-- Acceptor：也称作Selector，管理网络连接，通常基于epoll/select/poll等实现。
-- Dispatcher：管理handler的注册，从Acceptor获取事件之后分发给Handler。
-- Handler：请求的处理，包含读取、计算、发送等操作。
+> - Acceptor：也称作Selector，管理网络连接，通常基于epoll/select/poll等实现。
+> - Dispatcher：管理handler的注册，从Acceptor获取事件之后分发给Handler。
+> - Handler：请求的处理，包含读取、计算、发送等操作。
 
-<br/>
 从线程模型上来看，它可以实现为单线程或者少量线程的版本：
 
 1）单线程模型：所有操作都在一个线程中完成，当在高并发环境下，单线程负载过大，可靠性无法保证。
 ![Reactor Pattern in Single Thread](/img/5896b520ab64413f92000f16.png)
-
-<br/>
 
 2）多线程模型：多线程模型将Acceptor运行在独立的线程，这个线程只处理IO就绪检查，网络请求的处理都在线程池中进行，当然Acceptor可以继续扩展成多个线程提高可靠性。
 ![Reactor Pattern in Multiple Thred](/img/5896b520ab64413f92000f19.png)
@@ -86,26 +82,26 @@ AIO模型中有一个Reactor的异步版本：Proactor Pattern，它不再关注
 
 它包括以下组件:
 
-- Proactive Initiator：定义其它组件，并发起异步操作
-- Completion Handler：回调，IO完成后执行
-- Asynchronous Operation Processor：负责发起异步IO，并获取IO完成通知
-- Completion Dispatcher：分发IO完成通知给对应的Completion Handler
+> - Proactive Initiator：定义其它组件，并发起异步操作
+> - Completion Handler：回调，IO完成后执行
+> - Asynchronous Operation Processor：负责发起异步IO，并获取IO完成通知
+> - Completion Dispatcher：分发IO完成通知给对应的Completion Handler
 
 AIO模型的典型应用包括: IOCP，node.js，JDK7 AIO
 
 # 四、Concurrency Model in Web/Application Server Or Network application
 
 ## **Apache**
-- fork模式：BIO, 多进程，一个进程处理一个连接，每次都fork一个新的woker进程来处理新的连接，当年的CGI就用的这种模型。
-- prefork模式：BIO, 单线程+多进程，一个进程处理一个连接，利用进程池处理连接。
-- work模式：BIO, 多线程+多进程，一个线程处理一个连接。
+> - fork模式：BIO, 多进程，一个进程处理一个连接，每次都fork一个新的woker进程来处理新的连接，当年的CGI就用的这种模型。
+> - prefork模式：BIO, 单线程+多进程，一个进程处理一个连接，利用进程池处理连接。
+> - work模式：BIO, 多线程+多进程，一个线程处理一个连接。
 
 ## **Tomcat**
 Tomcat可以配置不同的Connector从而采用不同的IO模型：
 
-- Http11Protocol Connector：BIO模型
-- Http11NioProtocol Connector：NIO模型，V6.0.0开始支持基于NIO模型的HTTP Connector
-- Http11AprProtocol Connector: Apr即Apache Portable Runtime，从操作系统层面解决io阻塞问题。
+> - Http11Protocol Connector：BIO模型
+> - Http11NioProtocol Connector：NIO模型，V6.0.0开始支持基于NIO模型的HTTP Connector
+> - Http11AprProtocol Connector: Apr即Apache Portable Runtime，从操作系统层面解决io阻塞问题。
 
 这里引用文献11中对Tomcat8的性能测试结果
 ```
@@ -115,9 +111,9 @@ ab -n 10000 -c 1000 localhost:8080/examples/index.jsp
 总体上来看，Apr处理请求最快，Bio最慢；Apr宽带占用最高，Bio最低；但Apr的内存占用最高，而Nio的内存占用最低
 
 ## **Nginx**
-- NIO, 一个进程（线程）处理多个连接
-- 多进程（master进程+多个worker进程）+ 单线程
-- 连接、接收、发送操作都在worker进程完成，master进程主要负责管理配置、升级等
+> - NIO, 一个进程（线程）处理多个连接
+> - 多进程（master进程+多个worker进程）+ 单线程
+> - 连接、接收、发送操作都在worker进程完成，master进程主要负责管理配置、升级等
 - 基于epoll和非阻塞IO实现的事件驱动的IO模型
 
 ## **Redis**
@@ -132,17 +128,20 @@ IO模型就先聊这些，本系列的下一篇将基于这些基础来聊聊编
 
 # 六、Reference
 
-1. [《UNIX网络编程 卷1：套接字联网API》](http://book.douban.com/subject/4859464/)
-2. [Event Loop](https://en.wikipedia.org/wiki/Event_loop)
-3. [libuv](http://docs.libuv.org/en/v1.x/)
-4. [libeio](http://software.schmorp.de/pkg/libeio.html)
-5. [Reactor Pattern](https://en.wikipedia.org/wiki/Reactor_pattern)
-6. [Proactor Pattern](https://en.wikipedia.org/wiki/Proactor_pattern)
-7. [NIO.2 in Netty](https://github.com/netty/netty/issues/2515)
-8. [《构建高性能Web站点》](http://book.douban.com/subject/3924175/)
-9. [Tomcat HTTP Connector](https://tomcat.apache.org/tomcat-7.0-doc/config/http.html)
-10. [Netty线程模型](http://www.infoq.com/cn/articles/netty-threading-model)
-11. [Tomcat 8 Bio/Nio/Apr性能对比](http://blog.csdn.net/flyliuweisky547/article/details/25161239)
+> 1. [《UNIX网络编程 卷1：套接字联网API》](http://book.douban.com/subject/4859464/)
+> 2. [Event Loop](https://en.wikipedia.org/wiki/Event_loop)
+> 3. [libuv](http://docs.libuv.org/en/v1.x/)
+> 4. [libeio](http://software.schmorp.de/pkg/libeio.html)
+> 5. [Reactor Pattern](https://en.wikipedia.org/wiki/Reactor_pattern)
+> 6. [Proactor Pattern](https://en.wikipedia.org/wiki/Proactor_pattern)
+> 7. [NIO.2 in Netty](https://github.com/netty/netty/issues/2515)
+> 8. [《构建高性能Web站点》](http://book.douban.com/subject/3924175/)
+> 9. [Tomcat HTTP Connector](https://tomcat.apache.org/tomcat-7.0-doc/config/http.html)
+> 10. [Netty线程模型](http://www.infoq.com/cn/articles/netty-threading-model)
+> 11. [Tomcat 8 Bio/Nio/Apr性能对比](http://blog.csdn.net/flyliuweisky547/article/details/25161239)
 
-
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>
 

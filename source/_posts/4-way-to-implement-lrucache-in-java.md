@@ -4,11 +4,10 @@ category: programming
 tags: [java, cache]
 ---
 
-说在前面
----
+### 说在前面
 这两天在LeetCode上写一道LRUCache的题，题不难，用HashMap加双向链表提交通过之后，尝试用其它更简洁的方式进行实现，本文将这些方法一一列出，以供大家参考。<!--more-->
 
-###1. HashMap + 双向链表
+### 1. HashMap + 双向链表
 ```java
 package me.warren.leetcode;
 
@@ -113,7 +112,7 @@ class LinkedNode {
 
 ```
 
-###2. LinkedHashMap
+### 2. LinkedHashMap
 ```java
 package me.warren.leetcode;
 
@@ -153,7 +152,7 @@ public class LRUCacheByLinkedHashMap {
 ```
 
 
-###3. LRUMap
+### 3. LRUMap
 ```java
 package me.warren.leetcode;
 
@@ -188,7 +187,7 @@ public class LRUCacheByLRUMap {
 ```
 
 
-###4. Guava CacheBuilder
+### 4. Guava CacheBuilder
 ```java
 package me.warren.leetcode;
 
@@ -224,3 +223,8 @@ public class LRUCacheByGuava {
 ```
 
 Have Fun!
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>

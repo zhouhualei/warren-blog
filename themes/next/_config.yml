@@ -227,7 +227,7 @@ post_wordcount:
 
 # Wechat Subscriber
 wechat_subscriber:
-  enabled: true
+  enabled: false 
   qcode: /uploads/wechat-qcode.jpg
   description: 订阅我的微信公众号，您将即时收到新博客提醒！
 
@@ -250,7 +250,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: normal
+highlight_theme: normal 
 
 
 # ---------------------------------------------------------------

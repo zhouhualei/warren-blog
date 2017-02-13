@@ -5,7 +5,7 @@ tags: [java,db,migration]
 ---
 
 	
-###说在前面
+### 说在前面
 
 说起DB Migration, 用过Rails的看官必然能够回味起rake db:migrate的优雅，是的，如果我只个纯粹的Rails程序员，那就没这篇文章什么事了，可惜，我还需要写Java项目来混饭吃，没办法，那就只能在Java的世界里寻找能做同样事情的工具。一顿Google和StackOverflow之后，着实吓了我一跳，出现了一个长长的列表，Java的世界就是能把一件简单的事情搞得如此复杂，那我就得开始整理一下思路，为项目选择一个合适的db migration工具。<!--more-->
 
@@ -19,10 +19,10 @@ tags: [java,db,migration]
 	dbmaintain
 	AutoPatch
 
-###Comparison Matrix
+### Comparison Matrix
 ![Comparison Matrix](/img/db-migration-solution-comparison-matrix.png)
 
-###Criteria
+### Criteria
 	   1. can migrate up
 	   2. can migrate down
 	   3. support SQL as migration file
@@ -31,17 +31,17 @@ tags: [java,db,migration]
 
 经过各方面比较，mybatis-migration是我认为比较合适的方案，文档齐全，易于使用，功能恰到好处。其实flyway我也有看中，可惜不支持rollback让我很是纠结，最终决定选择mybatis-migration。接下来就来简单试用一下吧。
 
-###Practise
+### Practise
 
-####Step 1: Installation
+#### Step 1: Installation
 Download from https://github.com/mybatis/migrations/releases, 
 then install it referring to http://mybatis.github.io/migrations/installation.html.
 
-####Step 2: Create DataBase
+#### Step 2: Create DataBase
 ```shell
 $ mysqladmin -uroot -pcepmmon create migrate-testdb 
 ```
-####Step 3: Generate init files
+#### Step 3: Generate init files
 ```shell
 $ migrate init
 ```
@@ -79,7 +79,7 @@ $ tree
 	3 directories, 6 files
 
 
-####Step 4: Migration Status
+#### Step 4: Migration Status
 ```shell
 $ migrate status 
 ```
@@ -92,11 +92,11 @@ $ migrate status
 	-- Finished at: Sun Jan 25 23:00:39 CST 2015
 	-- Final Memory: 7M/480M
 
-####Step 5: Migrate db up to latest revision
+#### Step 5: Migrate db up to latest revision
 ```shell
 $ cat scripts/20150125143145_create_changelog.sql 
-```     
-                                                                                                                                   
+```
+```                                                                                                                                  
 	-- // Create Changelog
 	
 	-- Default DDL for changelog table that will keep
@@ -118,9 +118,12 @@ $ cat scripts/20150125143145_create_changelog.sql
 	-- //@UNDO	
 	DROP TABLE ${change log};
 
+```
+
 ```shell
 $ cat scripts/20150125143146_first_migration.sql 
-```                                                                                                                                  
+```
+```
 	-- // First migration.
 	-- Migration SQL that makes the change goes here.
 	create table users (
@@ -132,10 +135,12 @@ $ cat scripts/20150125143146_first_migration.sql
 	-- //@UNDO
 	-- SQL to undo the change goes here.
 	drop table users;
+```
 
 ```shell
 $ migrate up
 ``` 
+```
 	---------------------------------------------------------
 	-- MyBatis Migrations - up 
 	========== Applying: 20150125143145_create_changelog.sql 
@@ -145,10 +150,11 @@ $ migrate up
 	-- Total time: 0s 
 	-- Finished at: Sun Jan 25 23:24:36 CST 2015 
 	-- Final Memory: 10M/480M
-
+```
 ```shell
 $ migrate status  
 ```                                                                                                                                                                         
+```
 	---------------------------------------------------------
 	-- MyBatis Migrations - status
 	---------------------------------------------------------
@@ -156,9 +162,10 @@ $ migrate status
 	=========================================================
 	20150125143145 2015-01-25 23:21:37 create changelog
 	20150125143146 2015-01-25 23:24:36 first migration
-
+```
 ```shell
 mysql> select * from changelog;
+```
 ```
 	+----------------+---------------------+------------------+
 	| id             | APPLIED_AT          | DESCRIPTION      |
@@ -167,9 +174,10 @@ mysql> select * from changelog;
 	| 20150125143146 | 2015-01-25 23:24:36 | first migration  |
 	+----------------+---------------------+------------------+
 	2 rows in set (0.00 sec)
-
+```
 ```shell
 mysql> describe users;
+```
 ```
 	+-------+--------------+------+-----+---------+-------+
 	| Field | Type         | Null | Key | Default | Extra |
@@ -178,9 +186,14 @@ mysql> describe users;
 	| name  | varchar(255) | YES  |     | NULL    |       |
 	+-------+--------------+------+-----+---------+-------+
 	2 rows in set (0.01 sec)
-
+```
 Done!
 
-###Reference
+### Reference
 1. https://github.com/mybatis/migrations/releases
 2. http://mybatis.github.io/migrations/installation.html
+
+<center>
+![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
+订阅我的微信公众号，您将即时收到新博客提醒！
+</center>
