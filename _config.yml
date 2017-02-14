@@ -14,7 +14,7 @@ avatar: http://s.gravatar.com/avatar/ce912e646f98ab3fbb37129e50df55ec?s=80
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://zhouhualei.github.io
+url: http://warrentalk.site
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -40,8 +40,8 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: false
-  line_number: false 
+  enable: true 
+  line_number: true 
   auto_detect: true 
   tab_replace:
 
@@ -86,5 +86,5 @@ since: 2014
 deploy:
   type: git
   repo: https://github.com/zhouhualei/warrentalk.github.io.git
-  branch: 
-  message: 
+  branch: master
+  message: blog update
