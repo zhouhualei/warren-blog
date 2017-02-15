@@ -1,15 +1,24 @@
 title: Windows转Mac上手指南
 date: 2017-02-15 00:44:55
-category: Mac
-tags: [Mac, Guide]
+category: Productivity 
+tags: [Productivity, Mac, Guide]
 ---
 
-# 一、你需要抛弃的Windows思维
+# 一、如何培养Mac思维
 
-> 1. 磁盘分区概念
-> 2. 文件整理洁癖（少数重要文件除外）=> 改用文件搜索
-> 3. 丰富的客户端可以满足我的一切需求：Mac下可能没有像Windows下如此丰富客户端，你需要习惯多用命令行，并且用终端提高效率
-> 4. 鼠标是必须的 => Mac下可以用键盘+触摸板提高效率
+## 你需要抛弃:
+
+> - 磁盘分区概念
+> - 文件夹整理洁癖（少数重要文件除外）
+> - 丰富的客户端
+> - 选择性的抛弃鼠标
+
+## 你需要习惯:
+
+> - 文件搜索
+> - 键盘和触摸板
+> - 命令行
+> - 高效编辑器
 
 <!-- more -->
 
@@ -61,7 +70,7 @@ tags: [Mac, Guide]
 
 ## Shell环境：Zsh + on-my-zsh
 Mac下支持的shell:
-```
+```shell
 $ cat /etc/shells
 /bin/bash
 /bin/csh
@@ -93,21 +102,24 @@ brew search wget
 ```
 
 安装
-```
+```shell
 brew install wget
 ```
 列表
-```
+```shell
 brew list
 ```
 
 通过brew你可以把git, svn, maven的命令行工具都安装好。
 
-## 编辑器：Vim
+## 文本编辑器：Vim
 Vim作为与Emacs齐名的神器，展开说估计能写一本书。这里推荐大家使用吧（也可以考虑用客户端MacVim），掌握Vim你就离戒掉鼠标又近了一步。
 
-## 编辑器：Sublime Text
+## 可视化编辑器：Sublime Text
 可视化的文件编辑，基本够用，如果你喜欢折腾，它的package系统也很强大，有大量的插件可以使用。
+
+## Markdown编辑器: MacDown等
+markdown对于对经常写文档的人来说是强需求，免费的我推荐用MacDown，当然体验更好的收费版很多人都推荐Ulysses。
 
 ## JDK
 目前的系统不再自带java6，如果希望运行java6，需要利用安装包手动安装。
@@ -133,7 +145,7 @@ $ /usr/libexec/java_home -v 1.6
 可以使用jenv为不同的项目设置不同的jdk版本，因为jenv有global和local的概念,local配置会覆盖全局配置。jenv也可以使用brew进行安装。
 
 查看所有jdk
-```
+```shell
 $ jenv versions
   system
 * 1.6 (set by /Users/warren.zhl/.java-version)
@@ -144,7 +156,7 @@ $ jenv versions
   oracle64-1.8.0.102
 ```
 使用以下命令就可以设置局部jdk版本：
-```
+```shell
 $ jenv local 1.8
 $ jenv versions
   system
@@ -156,7 +168,7 @@ $ jenv versions
   oracle64-1.8.0.102
 ```
 其实它是通过本地的.java-version文件实现的
-```
+```shell
 $ cat .java-version
 1.8
 ```
