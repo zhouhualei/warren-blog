@@ -8,7 +8,7 @@ subtitle: 卧舟杂谈
 description: Keep Hungry, Keep Learning
 author: Warren Zhou 
 language: zh-Hans 
-timezone:
+timezone: 
 
 avatar: http://s.gravatar.com/avatar/ce912e646f98ab3fbb37129e50df55ec?s=80
 
@@ -52,8 +52,8 @@ social:
   GitHub: http://github.com/zhouhualei 
   Twitter: http://twitter.com/warren_zhou 
   Weibo: http://weibo.com/hualeizhou 
-  DouBan: http://douban.com/people/joesay 
-  ZhiHu: http://www.zhihu.com/people/warrenzhou 
+  douban: http://douban.com/people/joesay 
+  zhihu: http://www.zhihu.com/people/warrenzhou 
 
 baidu_analytics: 6cdc0c9737c27720d49e320df8535ee2
 

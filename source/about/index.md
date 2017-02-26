@@ -12,11 +12,12 @@ comments: false
 
 Hello, I am Warren Zhou, a software dev engineer, now I work at Ant Financial in Hangzhou.
 
+我是卧舟，程序员，目前就职于蚂蚁金服。如果需要内推，请发送应聘职位+简历到warren.zhl@antfin.com
+
 除了博客，你也可以在以下这些地方关注我: [**Github**](https://github.com/zhouhualei), [**知乎**](https://www.zhihu.com/people/warrenzhou), [**微博**](http://www.weibo.com/hualeizhou), [**Twitter**](https://twitter.com/warren_zhou), [**LinkedIn**](https://www.linkedin.com/in/warrenzhou)
 
 也欢迎大家订阅我的微信公众号"**卧舟杂谈**"，博客文章会即时同步到公众号中：
 ![卧舟杂谈](/img/58a1d13a6c923c68fc000003.png)
-
 
 <a name="cities">
 ### The cities I ever lived in
